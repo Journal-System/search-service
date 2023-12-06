@@ -10,7 +10,7 @@ services:
     ports:
       - 8085:8085
     environment:
-      QUARKUS_DATASOURCE_JDBC_URL: jdbc:mysql://host.docker.internal:3307/PatientInfo
-      MYSQL_USER: root
-      MYSQL_PASSWORD: PASSWORD123
+      QUARKUS_DATASOURCE_JDBC_URL: jdbc:mysql://host.docker.internal:3307/${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     restart: on-failure
