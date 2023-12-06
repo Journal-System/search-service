@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  quarkus-app:
+    container_name: search-service
+    image: search-service
+    build:
+      context: ./
+      dockerfile: src/main/docker/Dockerfile.jvm
+    ports:
+      - 8085:8085
+    environment:
+      QUARKUS_DATASOURCE_JDBC_URL: jdbc:mysql://host.docker.internal:3307/PatientInfo
+      MYSQL_USER: root
+      MYSQL_PASSWORD: PASSWORD123
+    restart: on-failure
