@@ -4,7 +4,6 @@ ENV LANGUAGE='en_US:en'
 COPY --chown=185 /app/target/quarkus-app/lib/ /deployments/lib/
 COPY --chown=185 /app/target/quarkus-app/*.jar /deployments/
 COPY --chown=185 /app/target/quarkus-app/app/ /deployments/app/
-COPY --chown=185 /app/target/quarkus-app/quarkus/ /deployments/quarkus/
 EXPOSE 8085
 USER 185
 ENV JAVA_OPTS_APPEND="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
