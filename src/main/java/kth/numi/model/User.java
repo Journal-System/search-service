@@ -1,7 +1,8 @@
 package kth.numi.model;
 
+import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
 import jakarta.persistence.*;
-import kth.numi.roles.UserRole;
+import kth.numi.roles.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,11 +14,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "user")
-public class User {
+@Cacheable
+public class User extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "firstname", nullable = false)
@@ -38,7 +40,7 @@ public class User {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "user_role", nullable = false)
+    @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+    private Role role;
 }

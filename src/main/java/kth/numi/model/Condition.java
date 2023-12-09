@@ -1,5 +1,6 @@
 package kth.numi.model;
 
+import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "`condition`")
 @Entity
-public class Condition {
+public class Condition extends PanacheEntityBase {
 
     @Id
     @Column(name = "`condition_id`")
@@ -25,6 +26,6 @@ public class Condition {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "patient_id")
+    @Column(name = "patientId")
     private Integer patientId;
 }

@@ -1,6 +1,7 @@
 package kth.numi.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "Encounter")
 @Entity
-public class Encounter {
+public class Encounter extends PanacheEntityBase {
 
     @Id
     @Column(name = "encounter_id")
