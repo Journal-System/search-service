@@ -7,7 +7,7 @@
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.jvm -t quarkus/searchservice-jvm .
+# docker build -f src/main/docker/Dockerfile -t quarkus/searchservice-jvm .
 #
 # Then run the container using:
 #
