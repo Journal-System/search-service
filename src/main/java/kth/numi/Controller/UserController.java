@@ -17,8 +17,6 @@ import java.util.stream.Collectors;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class UserController {
-    private static final Logger LOGGER = Logger.getLogger(UserController.class.getName());
-
     @GET
     @Path("/patients/name/{name}")
     public Uni<List<User>> getByName(String name) {
