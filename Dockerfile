@@ -84,7 +84,6 @@ COPY pom.xml /app
 RUN mvn -f app/pom.xml install
 
 FROM registry.access.redhat.com/ubi8/openjdk-17:1.17
-
 ENV LANGUAGE='en_US:en'
 
 # We make four distinct layers so if there are application changes the library layers can be re-used
