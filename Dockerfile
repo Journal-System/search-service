@@ -77,6 +77,12 @@
 #   accessed directly. (example: "foo.example.com,bar.example.com")
 #
 ###
+
+FROM maven:3.8.1-openjdk-17-slim AS build
+COPY src /app/src
+COPY pom.xml /app
+RUN mvn -f app/pom.xml install
+
 FROM registry.access.redhat.com/ubi8/openjdk-17:1.17
 
 ENV LANGUAGE='en_US:en'
