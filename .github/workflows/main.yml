@@ -15,7 +15,7 @@ jobs:
 
       - name: Build Maven project
         run: |
-          docker build -t my-maven-image -f Dockerfile.mvn .
+          docker build -t my-maven-image -f Dockerfile .
           docker run --rm -v $(pwd):/app my-maven-image
 
       - name: Login to Docker Hub
