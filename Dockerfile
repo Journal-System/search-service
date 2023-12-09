@@ -1,10 +1,7 @@
-FROM maven:3.8.1-openjdk-17-slim AS build
+FROM registry.access.redhat.com/ubi8/openjdk-17:1.17
 COPY src /app/src
 COPY pom.xml /app
 RUN mvn -f app/pom.xml install
-
-
-FROM eclipse-temurin:17-jdk-jammy
 ENV LANGUAGE='en_US:en'
 # We make four distinct layers so if there are application changes the library layers can be re-used
 COPY --chown=185 target/quarkus-app/lib/ /deployments/lib/
