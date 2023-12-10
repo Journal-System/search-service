@@ -9,9 +9,7 @@ import kth.numi.model.User;
 import kth.numi.roles.Role;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
 @Path("/v1")
 @ApplicationScoped
 @Produces(MediaType.APPLICATION_JSON)

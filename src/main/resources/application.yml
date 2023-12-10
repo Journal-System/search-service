@@ -1,0 +1,18 @@
+# Reactive config
+quarkus:
+  datasource:
+    db-kind: mysql
+    reactive:
+      url: vertx-reactive:mysql://vm.cloud.cbh.kth.se:2776/PatientInfo
+    username: ${{ secrets.MYSQL_USER }}
+    password: ${{ secrets.MYSQL_PASSWORD }}
+  hibernate-orm:
+    database:
+      generation: none
+    log:
+      sql: true
+  http:
+    port: 8085
+  log:
+    console:
+      level: DEBUG
