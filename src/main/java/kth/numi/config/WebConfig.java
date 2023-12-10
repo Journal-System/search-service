@@ -12,6 +12,7 @@ public class WebConfig implements ContainerResponseFilter {
     public void filter(ContainerRequestContext requestContext,
                        ContainerResponseContext responseContext) throws IOException {
         responseContext.getHeaders().add("Access-Control-Allow-Origin", "https://patient-journal.app.cloud.cbh.kth.se");
+        responseContext.getHeaders().add("Access-Control-Allow-Origin", "http://localhost:4000");
         responseContext.getHeaders().add("Access-Control-Allow-Credentials", "true");
         responseContext.getHeaders().add("Access-Control-Allow-Headers", "*");
         responseContext.getHeaders().add("Access-Control-Allow-Methods", "GET");
