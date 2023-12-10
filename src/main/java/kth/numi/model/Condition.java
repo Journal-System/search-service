@@ -26,6 +26,6 @@ public class Condition extends PanacheEntityBase {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "patientId")
+    @Column(name = "patient_Id")
     private Integer patientId;
 }
