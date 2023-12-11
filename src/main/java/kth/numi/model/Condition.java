@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "`condition`")
 @Entity
+@Cacheable
 public class Condition extends PanacheEntityBase {
 
     @Id

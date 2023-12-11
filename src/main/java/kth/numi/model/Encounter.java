@@ -7,15 +7,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Encounter")
+@Table(name = "encounter")
 @Entity
+@Cacheable
 public class Encounter extends PanacheEntityBase {
 
     @Id
@@ -33,9 +33,10 @@ public class Encounter extends PanacheEntityBase {
     @Column(name = "`patient_id`")
     private Integer patientId;
 
-    @Column(name = "`doctorId`")
+    @Column(name = "doctor_id")
     private Integer doctorId;
 
     @Column(name = "`observation_id`")
     private Integer observationId;
+
 }

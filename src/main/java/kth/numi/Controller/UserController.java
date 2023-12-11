@@ -5,8 +5,14 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import kth.numi.model.Condition;
+import kth.numi.model.Encounter;
 import kth.numi.model.User;
 import kth.numi.roles.Role;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,38 +52,60 @@ public class UserController {
                 .onItem().ifNull().continueWith(Collections.emptyList());
     }
 
-//    @GET
-//    @Path("/patients/condition/{condition}")
-//    public List<User> getByCondition(@PathParam("condition") String condition) {
-//        List<Integer> patientIds = conditionRepository.findPatientIdsByCondition(condition);
-//        if (!patientIds.isEmpty()) {
-//            return userRepository.findPatientsByPatientIds(patientIds);
-//        }
-//        return null;
-//    }
+    @GET
+    @Path("/doctor/patients/{name}")
+    public Uni<List<?>> getPatientsByDoctorName(String name) {
+        Uni<User> doctor = User.find("firstname = ?1 and role = ?2", name, Role.DOCTOR)
+                .firstResult();
 
-//    @GET
-//    @Path("/doctor/patients/{name}")
-//    public List<User> getPatientsByDoctorName(@PathParam("name") String name) {
-//        Integer doctorId = userRepository.findDoctorId(name);
-//        if (doctorId != null) {
-//            List<Integer> patientsIds = encounterRepository.findPatientsIdsByDoctorId(doctorId);
-//            if (patientsIds != null) {
-//                return userRepository.findPatientsByPatientIds(patientsIds);
-//            }
-//        }
-//
-//        return null;
-//    }
+        Uni<Integer> doctorId = doctor
+                .onItem().ifNotNull().transform(User::getId)
+                .onItem().ifNull().continueWith(-1);
 
-//    @GET
-//    @Path("/doctor/encounters/{name}")
-//    public List<Encounter> getEncountersByDoctorName(@PathParam("name") String name) {
-//        Integer doctorId = userRepository.findDoctorId(name);
-//        if (doctorId != null) {
-//            return encounterRepository.findEncountersTodayByDoctorId(doctorId);
-//        }
-//
-//        return null;
-//    }
+        return doctorId
+                .onItem().ifNotNull().transformToUni(id -> {
+                    if (id != null) {
+                        Uni<List<Encounter>> patientId = Encounter
+                                .find("select patientId from Encounter where doctorId = ?1", id)
+                                .list();
+                        return patientId
+                                .onItem().ifNotNull().transformToUni(pId -> {
+                                    List<Encounter> patientID = new ArrayList<>(pId);
+
+                                    if (patientID != null) {
+                                        return User.find("id IN ?1", patientID).list();
+                                    }
+                                    return Uni.createFrom().item(Collections.emptyList());
+                                })
+                                .onItem().ifNull().continueWith(Collections.emptyList());
+
+                    }
+                    return Uni.createFrom().item(Collections.emptyList());
+                })
+                .onItem().ifNull().continueWith(Collections.emptyList());
+    }
+
+    @GET
+    @Path("/doctor/encounters/{name}")
+    public Uni<List<?>> getEncounterByDoctorName(String name) {
+        Uni<User> doctor = User.find("firstname = ?1 and role = ?2", name, Role.DOCTOR)
+                .firstResult();
+
+        Uni<Integer> doctorId = doctor
+                .onItem().ifNotNull().transform(User::getId)
+                .onItem().ifNull().continueWith(-1);
+
+        LocalDateTime startOfDay = LocalDateTime.now().toLocalDate().atTime(LocalTime.MIN);
+        LocalDateTime endOfDay = LocalDateTime.now().toLocalDate().atTime(LocalTime.MAX);
+
+        return doctorId
+                .onItem().ifNotNull().transformToUni(id -> {
+                    if (id != null) {
+                        return Encounter.find("doctorId = ?1 and timestamp >= ?2 and timestamp <= ?3", id, startOfDay, endOfDay)
+                                .list();
+                    }
+                    return Uni.createFrom().item(Collections.emptyList());
+                })
+                .onItem().ifNull().continueWith(Collections.emptyList());
+    }
 }
