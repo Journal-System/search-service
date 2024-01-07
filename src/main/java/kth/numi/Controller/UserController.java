@@ -1,5 +1,6 @@
 package kth.numi.Controller;
 
+import io.quarkus.security.Authenticated;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.*;
@@ -8,6 +9,7 @@ import kth.numi.model.Condition;
 import kth.numi.model.Encounter;
 import kth.numi.model.User;
 import kth.numi.roles.Role;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Path("/v1")
+@PreAuthorize("hasRole('ADMIN')")
 public class UserController {
     @GET
     @Path("/patients/name/{name}")
